@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>seren.sample</groupId>
+	<artifactId>mvntestrepo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>mvnrepotest</name>
+	<properties>
+		<java.version>1.8</java.version>
+		<github.global.host>api.github.com</github.global.host>
+		<github.global.repositoryName>mvntestrepo</github.global.repositoryName>
+		<github.global.repositoryOwner>A-pZ</github.global.repositoryOwner>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.1</version>
+				<configuration>
+					<altDeploymentRepository>internal.repos::default::file://${project.build.directory}/mvntestrepo</altDeploymentRepository>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<version>0.11</version>
+				<configuration>
+					<!-- Git コミットメッセージ -->
+					<message>Maven artifacts for mvntestrepo</message>
+					<noJekyll>true</noJekyll>
+					<!-- distributionManagement の url と一致させる -->
+					<outputDirectory>${project.build.directory}/mvntestrepo</outputDirectory>
+					<!-- リモートブランチ名 -->
+					<branch>refs/heads/develop</branch>
+					<includes>
+						<include>**/*</include>
+					</includes>
+					<!-- Github リポジトリ名 -->
+					<repositoryName>${github.global.repositoryName}</repositoryName>
+					<!-- Github リポジトリユーザー名 -->
+					<repositoryOwner>${github.global.repositoryOwner}</repositoryOwner>
+				</configuration>
+				<executions>
+					<!-- run site-maven-plugin's 'site' target as part of the build's normal 
+						'deploy' phase -->
+					<execution>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<phase>site</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<repositories>
+		<repository>
+			<id>github-maven</id>
+			<url>https://github.com/A-pZ/mvntestrepo/raw/developer/</url>
+		</repository>
+	</repositories>
+</project>

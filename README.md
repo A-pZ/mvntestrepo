@@ -1,2 +1,0 @@
-# mvntestrepo
-maven test repository
